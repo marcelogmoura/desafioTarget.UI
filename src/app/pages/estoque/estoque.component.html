@@ -1,0 +1,81 @@
+<div class="container mt-4">
+  <h2 class="mb-4">📦 Gestão de Estoque</h2>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="abaAtiva === 'carga'" (click)="abaAtiva = 'carga'" style="cursor: pointer;">
+        1. Carga Inicial (JSON)
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="abaAtiva === 'movimentacao'" (click)="abaAtiva = 'movimentacao'" style="cursor: pointer;">
+        2. Realizar Movimentação
+      </a>
+    </li>
+  </ul>
+
+  <div *ngIf="abaAtiva === 'carga'" class="fade-in">
+    <div class="alert alert-info">
+      Use esta tela para cadastrar os produtos iniciais no banco SQL Server.
+    </div>
+
+    <textarea class="form-control font-monospace mb-3" rows="10" [(ngModel)]="jsonCarga"></textarea>
+
+    <button class="btn btn-primary" (click)="enviarCarga()">
+      📤 Enviar Carga para API
+    </button>
+
+    <div *ngIf="msgCarga" class="alert alert-success mt-3">{{ msgCarga }}</div>
+    <div *ngIf="erroCarga" class="alert alert-danger mt-3">{{ erroCarga }}</div>
+  </div>
+
+  <div *ngIf="abaAtiva === 'movimentacao'" class="fade-in">
+    <div class="card" style="max-width: 600px;">
+      <div class="card-body">
+        <h5 class="card-title">Lançar Entrada/Saída</h5>
+
+        <div class="mb-3">
+          <label class="form-label">Código do Produto</label>
+          <input type="number" class="form-control" [(ngModel)]="movimento.codigoProduto">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Descrição do Movimento</label>
+          <input type="text" class="form-control" [(ngModel)]="movimento.descricao">
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tipo</label>
+            <select class="form-select" [(ngModel)]="movimento.tipo">
+              <option value="Entrada">Entrada (+)</option>
+              <option value="Saida">Saída (-)</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Quantidade</label>
+            <input type="number" class="form-control" [(ngModel)]="movimento.quantidade">
+          </div>
+        </div>
+
+        <button class="btn btn-success w-100" (click)="registrarMovimento()">
+          Confirmar Movimentação
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="resultadoMovimento" class="alert alert-success mt-4">
+      <h4 class="alert-heading">Sucesso! 🎉</h4>
+      <p>O saldo foi atualizado no banco de dados.</p>
+      <hr>
+      <p class="mb-0">
+        Produto: <strong>{{ resultadoMovimento.produto }}</strong> <br>
+        Novo Saldo: <strong>{{ resultadoMovimento.estoqueAtual }} unidades</strong>
+      </p>
+    </div>
+
+    <div *ngIf="erroMovimento" class="alert alert-danger mt-4">
+      ❌ {{ erroMovimento }}
+    </div>
+  </div>
+</div>
