@@ -1,59 +1,50 @@
-# DesafioTargetUI
+# 🚀 Desafio Fullstack - Gestão de Vendas e Estoque
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+Este projeto é uma solução completa (Fullstack) desenvolvida para resolver desafios de lógica de negócio, cálculo de comissões e gestão de estoque. A arquitetura foi desenhada seguindo as melhores práticas de mercado, focando em **Escalabilidade**, **Manutenibilidade** e **Desacoplamento**.
 
-## Development server
+## 🛠️ Tecnologias Utilizadas
 
-To start a local development server, run:
+### Back-end (.NET 8)
+- **ASP.NET Core Web API**: Exposição dos endpoints RESTful.
+- **Entity Framework Core**: ORM para persistência de dados.
+- **SQL Server**: Banco de dados relacional.
+- **Clean Architecture**: Separação de responsabilidades em camadas (Domain, Application, Infra, API).
+- **SOLID**: Aplicação rigorosa dos princípios de design de código.
+- **Swagger**: Documentação automática da API.
 
-```bash
-ng serve
-```
+### Front-end (Angular 17+)
+- **Standalone Components**: Arquitetura moderna sem módulos (NgModule).
+- **Service Pattern**: Isolamento da comunicação HTTP.
+- **Bootstrap 5**: Estilização responsiva e componentes visuais (Cards, Modals, Tables).
+- **TypeScript**: Tipagem estática para maior segurança.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Infraestrutura & DevOps
+- **Docker Compose**: Orquestração dos containers (API + SQL Server).
+- **Dockerfile**: Containerização otimizada da aplicação .NET.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏗️ Arquitetura do Projeto
 
-```bash
-ng generate component component-name
-```
+A solução foi estruturada utilizando o padrão **Onion Architecture / Clean Architecture**:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1.  **Domain**: O núcleo do sistema. Contém as Entidades (`Produto`, `Movimentacao`), Interfaces (`IRepository`) e Regras de Negócio Puras (`CalculadoraComissaoService`). Não depende de ninguém.
+2.  **Application**: Camada de orquestração. Contém os DTOs (Data Transfer Objects) e Services que traduzem os dados externos para o domínio.
+3.  **Infra**: Implementação técnica. Contém o `DbContext`, Mapeamentos do EF Core e Repositórios concretos.
+4.  **API**: Ponto de entrada. Controllers enxutos que apenas recebem requisições e devolvem respostas HTTP.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## 🚀 Como Rodar o Projeto
 
-To build the project run:
+### Pré-requisitos
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) instalado e rodando.
+- [Node.js](https://nodejs.org/) (para o Front-end).
+- [.NET 8 SDK](https://dotnet.microsoft.com/download) (opcional, caso queira rodar fora do Docker).
 
-```bash
-ng build
-```
+### Passo 1: Subir o Back-end (Docker)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Na raiz do projeto (onde está o arquivo `docker-compose.yml`), execute:
 
 ```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+docker-compose up -d --build
