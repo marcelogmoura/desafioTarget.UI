@@ -40,3 +40,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+
+.idea/
+.vscode/
+bin/
+obj/
+node_modules/
+dist/
+.env
+.DS_Store
